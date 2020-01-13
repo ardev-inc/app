@@ -130,7 +130,7 @@ export class GooglemapsService {
     return datos[0];
   }
 
-  public mapeoTodaLaLista(datoObj: object): any[]{
+  public mapeoTodaLaLista(datoObj: object): any[] {
     let datos: any[] = [];
 
     if (datoObj === null) { return null; }
@@ -149,5 +149,5 @@ export class GooglemapsService {
     })
     return datos;
   }
-  
+
 }

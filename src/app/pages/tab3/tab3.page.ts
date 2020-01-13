@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ImeiService } from 'src/app/servicios/imei.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import Swal from 'sweetalert2'
 
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+//Servicios
+import { ImeiService } from 'src/app/servicios/imei.service';
 import { HistorialService } from 'src/app/servicios/historial.service';
 
 @Component({
@@ -20,7 +21,7 @@ export class Tab3Page implements OnInit {
   public alarmas: any[] = [];
   public inclinaciones: any[] = [];
 
-  constructor(private imeiService: ImeiService, private iab: InAppBrowser, private historialService: HistorialService) {
+  constructor(private historialService: HistorialService, private iab: InAppBrowser, private imeiService: ImeiService) {
     this.anio = new Date().getFullYear();
   }
 
@@ -32,7 +33,7 @@ export class Tab3Page implements OnInit {
       this.imei = "";
     }
 
-   this.leerHistorial();
+    this.leerHistorial();
   }
 
   public crearIMEI(): void {
@@ -50,7 +51,7 @@ export class Tab3Page implements OnInit {
     })
   }
 
- public borrarIMEI(): void {
+  public borrarIMEI(): void {
     Swal.fire({
       title: '¿Estas seguro?',
       text: "Esto no puede revertirse",
@@ -79,7 +80,7 @@ export class Tab3Page implements OnInit {
     browser.show();
   }
 
-  public async leerHistorial(): Promise<void>{
+  public async leerHistorial(): Promise<void> {
     this.alarmas = await this.historialService.getAlarmas(this.imei).toPromise();
     this.inclinaciones = await this.historialService.getInclinaciones(this.imei).toPromise();
   }

@@ -3,13 +3,13 @@ import { Injectable, OnInit } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class ImeiService implements OnInit{
+export class ImeiService implements OnInit {
 
   public imei: string;
 
   constructor() {
     this.imei = JSON.parse(localStorage.getItem('imei'));
-   }
+  }
 
   public ngOnInit(): void { }
 
@@ -21,8 +21,8 @@ export class ImeiService implements OnInit{
     localStorage.setItem('imei', JSON.stringify(imei));
   }
 
- public borrarImei(): void{
-   localStorage.removeItem('imei');
- }
- 
+  public borrarImei(): void {
+    localStorage.removeItem('imei');
+  }
+
 }

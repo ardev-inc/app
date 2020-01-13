@@ -11,7 +11,6 @@ export class HistorialService {
 
   private URL: string = `https://proyecto-ardev.firebaseio.com/`;
 
-
   constructor(private http: HttpClient) { }
 
   //CRUD alarma

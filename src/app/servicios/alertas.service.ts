@@ -13,16 +13,16 @@ export class AlertasService {
   private URL: string = `https://proyecto-ardev.firebaseio.com/`;
 
 
-  constructor(private http: HttpClient ) {  }
+  constructor(private http: HttpClient) { }
 
-  public ngOnInit(): void{ }
+  public ngOnInit(): void { }
 
   //Observer alarma
   public getAlarma(imei: string): Observable<any> {
     return new Observable<any>((observer: Observer<any>): void => {
       this.listenAlarma(imei).toPromise()
-      .then((d: any) => observer.next(d))
-      .catch((err: any) => observer.error(err));
+        .then((d: any) => observer.next(d))
+        .catch((err: any) => observer.error(err));
     });
   }
 
@@ -35,20 +35,20 @@ export class AlertasService {
       );
   }
 
-  public borrarAlarma( id: string, imei: string ): Observable<any>{
-    return this.http.delete(`${ this.URL }/${ imei }/Alarma/${ id }.json`);
+  public borrarAlarma(id: string, imei: string): Observable<any> {
+    return this.http.delete(`${this.URL}/${imei}/Alarma/${id}.json`);
   }
 
   public getAlarmas(imei: string): Observable<any> {
     return new Observable<any>((observer: Observer<any>): void => {
       this.listenAlarmas(imei).toPromise()
-      .then((d: any) => observer.next(d))
-      .catch((err: any) => observer.error(err));
+        .then((d: any) => observer.next(d))
+        .catch((err: any) => observer.error(err));
     });
   }
 
   private listenAlarmas(imei: string): Observable<any[]> {
-    return this.http.get(`${ this.URL }/${ imei }/Alarma/.json`)
+    return this.http.get(`${this.URL}/${imei}/Alarma/.json`)
       .pipe(
         map(resp => {
           return this.mapeoTodaLaLista(resp);
@@ -56,9 +56,9 @@ export class AlertasService {
       );
   }
 
- public async vaciarAlarma(imei: string): Promise<void>{
+  public async vaciarAlarma(imei: string): Promise<void> {
     await this.getAlarmas(imei).subscribe(async (d: any[]) => {
-      for(let i of d){
+      for (let i of d) {
         this.borrarAlarma(i.id, imei).toPromise();
       }
     });
@@ -68,13 +68,13 @@ export class AlertasService {
   public getInclinacion(imei: string): Observable<any> {
     return new Observable<any>((observer: Observer<any>): void => {
       this.listenInclinacion(imei).toPromise()
-      .then((d: any) => observer.next(d))
-      .catch((err: any) => observer.error(err));
+        .then((d: any) => observer.next(d))
+        .catch((err: any) => observer.error(err));
     });
   }
 
   private listenInclinacion(imei: string): Observable<any> {
-    return this.http.get(`${ this.URL }/${ imei }/Inclinacion/.json`)
+    return this.http.get(`${this.URL}/${imei}/Inclinacion/.json`)
       .pipe(
         map(resp => {
           return this.mapeoDato(resp);
@@ -82,20 +82,20 @@ export class AlertasService {
       );
   }
 
-  public borrarInclinacion( id: string, imei: string ): Observable<Object>{
-    return this.http.delete(`${ this.URL }/${ imei }/Inclinacion/${ id }.json`);
+  public borrarInclinacion(id: string, imei: string): Observable<Object> {
+    return this.http.delete(`${this.URL}/${imei}/Inclinacion/${id}.json`);
   }
 
   public getInclinaciones(imei: string): Observable<any> {
     return new Observable<any>((observer: Observer<any>): void => {
       this.listenInclinaciones(imei).toPromise()
-      .then((d: any) => observer.next(d))
-      .catch((err: any) => observer.error(err));
+        .then((d: any) => observer.next(d))
+        .catch((err: any) => observer.error(err));
     });
   }
 
   private listenInclinaciones(imei: string): Observable<any> {
-    return this.http.get(`${ this.URL }/${ imei }/Inclinacion/.json`)
+    return this.http.get(`${this.URL}/${imei}/Inclinacion/.json`)
       .pipe(
         map(resp => {
           return this.mapeoTodaLaLista(resp);
@@ -103,9 +103,9 @@ export class AlertasService {
       );
   }
 
-  public async vaciarInclinacion(imei: string): Promise<void>{
+  public async vaciarInclinacion(imei: string): Promise<void> {
     await this.getInclinaciones(imei).subscribe(async (d: any[]) => {
-      for(let i of d){
+      for (let i of d) {
         this.borrarInclinacion(i.id, imei).toPromise();
       }
     });
@@ -129,11 +129,11 @@ export class AlertasService {
       dato.id = key;                   //me guardo la key                                                                 
       datos.push(dato);                //y lo agrego a la coleccion
     })
-    
+
     return datos[0];
   }
 
-  private mapeoTodaLaLista(datoObj: object): any[]{
+  private mapeoTodaLaLista(datoObj: object): any[] {
     let datos: any[] = [];
 
     if (datoObj === null) { return null; }
@@ -150,8 +150,8 @@ export class AlertasService {
       dato.id = key;                   //me guardo la key                                                                 
       datos.push(dato);                //y lo agrego a la coleccion
     })
-    
+
     return datos;
   }
-  
+
 }

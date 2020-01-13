@@ -1,8 +1,7 @@
 export class Vtv {
-
     id: string;
-    tipo: string;
     patente: string;
+    tipo: string;
     vencimiento: Date;
 
     constructor(patente: string, fechaVencimiento: Date) {
@@ -10,5 +9,4 @@ export class Vtv {
         this.patente = patente;
         this.vencimiento = fechaVencimiento;
     };
-
 }

@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from "rxjs"
-import { HttpClient } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 
@@ -12,10 +12,9 @@ export class TempHumService {
 
   private URL: string = `https://proyecto-ardev.firebaseio.com/`;
 
-
   constructor(private http: HttpClient) { }
 
-  // TEMPERATURA
+  //TEMPERATURA
   public getTemperatura(imei: string): Observable<any> {
     return new Observable<any>((observer: Observer<any>): void => {
       this.listenTemperatura(imei).toPromise()

@@ -1,10 +1,9 @@
 export class Licencia {
-
-    id: string;
-    tipo: string;
-    nombre: string;
     apellido: string;
+    id: string;
+    nombre: string;
     numeroLicencia: string;
+    tipo: string;
     vencimiento: Date;
 
     constructor(nombre: string, apellido: string, numeroLicencia: string, fechaVenc: Date) {
@@ -14,5 +13,4 @@ export class Licencia {
         this.numeroLicencia = numeroLicencia;
         this.vencimiento = fechaVenc;
     };   
-
 }

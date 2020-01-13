@@ -1,12 +1,13 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { AlertasService } from 'src/app/servicios/alertas.service';
-import { TempHumService } from 'src/app/servicios/temp-hum.service';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
-import { GooglemapsService } from 'src/app/servicios/googlemaps.service';
-
 import Swal from 'sweetalert2'
+
+//Servicios
+import { AlertasService } from 'src/app/servicios/alertas.service';
+import { GooglemapsService } from 'src/app/servicios/googlemaps.service';
 import { ImeiService } from 'src/app/servicios/imei.service';
 import { HistorialService } from 'src/app/servicios/historial.service';
+import { TempHumService } from 'src/app/servicios/temp-hum.service';
 
 declare var google;
 
@@ -22,9 +23,10 @@ export class Tab1Page implements OnInit {
   public map;
 
   public estacionado: boolean = false;
-
-  public inclinacion: boolean = false;
+  public seguimiento: boolean = false;
+  
   public  alarma: boolean = false;
+  public inclinacion: boolean = false;
 
   public cardTextAlarma: string = 'Desactivada';
   public cardTextInclinacion: string = 'Sin movimientos';
@@ -32,20 +34,17 @@ export class Tab1Page implements OnInit {
   public temperatura: number = 0;
   public humedad: number = 0;
 
-  public seguimiento: boolean = false;
   public longitud: number;
   public latitud: number;
 
   public imei: string;
 
   constructor(private alertasService: AlertasService,
-    private loadingCtrl: LoadingController,
-    private temp_humService: TempHumService,
-    private mapsService: GooglemapsService,
+    private historialService: HistorialService, 
     private imeiService: ImeiService,
-    private historialService: HistorialService) {
-
-  }
+    private loadingCtrl: LoadingController,
+    private mapsService: GooglemapsService,
+    private temp_humService: TempHumService){ }
 
   public ngOnInit(): void {
     this.imei = this.imeiService.getImei();
@@ -58,7 +57,7 @@ export class Tab1Page implements OnInit {
 
     // this.loadMap();
 
-    // if(this.cargarStorage('estacionado')==1){
+    // if(this.cargarStorage('estacionado') == 1){
     //   this.estacionado = true
     // }
   }

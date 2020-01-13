@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { Licencia } from '../clases/Licencia.class';
-import { Vtv } from '../clases/Vtv.class';
-
+import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+//Clases
+import { Licencia } from '../clases/Licencia.class';
+import { Vtv } from '../clases/Vtv.class';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,6 @@ import { Observable } from 'rxjs';
 export class DocumentacionService {
 
   private URL: string = `https://proyecto-ardev.firebaseio.com/`;
-
 
   constructor(private http: HttpClient) { }
 

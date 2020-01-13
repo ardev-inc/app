@@ -9,7 +9,6 @@ import { Vtv } from 'src/app/clases/Vtv.class';
 import { DocumentacionService } from 'src/app/servicios/documentacion.service';
 import { ImeiService } from 'src/app/servicios/imei.service';
 
-
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -28,19 +27,16 @@ export class Tab2Page implements OnInit {
   public documentos: any[] = [];
 
   public form: any = {
-
     licencia: {
       apellido: null,
       nombre: null,
       numeroLicencia: null,
       vencimiento: null
     },
-
     vtv: {
       numeroLicencia: null,
       vencimiento: null
     }
-
   };
 
   constructor(private documentacionService: DocumentacionService, private imeiService: ImeiService) {
@@ -50,7 +46,6 @@ export class Tab2Page implements OnInit {
     this.imei = this.imeiService.getImei();
 
     this.loadPage();
-
   }
 
   // Para seleccionar el tipo de formulario
@@ -102,6 +97,7 @@ export class Tab2Page implements OnInit {
     }
   }
 
+  //Documentación Vencida
   public documentosPorVencerse(): Promise<any> {
     return Swal.fire({
       type: 'warning',
@@ -116,12 +112,6 @@ export class Tab2Page implements OnInit {
       title: 'Documentación vencida',
       text: '¡Uno o más documentos estan vencidos!',
     })
-  }
-
-  public async loadPage(): Promise<void> {
-    this.documentos = await this.documentacionService.getDocumentos(this.imei).toPromise();
-
-    await this.calcularVencido();
   }
 
   public async calcularVencido(): Promise<void> {
@@ -156,4 +146,9 @@ export class Tab2Page implements OnInit {
     }
   }
 
+  public async loadPage(): Promise<void> {
+    this.documentos = await this.documentacionService.getDocumentos(this.imei).toPromise();
+
+    await this.calcularVencido();
+  }
 }
