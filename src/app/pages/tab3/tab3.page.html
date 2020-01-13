@@ -1,0 +1,92 @@
+<!-- Header -->
+<ion-header class="animated fadeInDown ion-text-center">
+  <ion-toolbar color=$toolbar-color>
+    <ion-title color="light">
+      Info & Settings
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- IMEI -->
+
+  <div class="container jumbotron">
+    <ion-badge class="bg-warning text-dark mt-2 ml-4" style="font-size: larger; position:relative;" position="stacked">
+      IMEI: <small style="font-size: medium" *ngIf="imei != 'null'" position="stacked">{{imei}}</small></ion-badge>
+
+    <ion-badge *ngIf="cargado" class="bg-danger text-dark ml-5" style="font-size: larger" (click)="borrarIMEI()">Borrar
+      IMEI
+    </ion-badge>
+
+    <ion-col>
+      <form *ngIf="!cargado" (ngSubmit)="crearIMEI()">
+
+        <ion-item>
+          <ion-input type="text" [(ngModel)]="imei" name="imei" #doc="ngModel"
+            placeholder="Ingrese el IMEI de su equipo adquirido..." required>
+          </ion-input>
+        </ion-item>
+        <ion-button type="submit" color=$toolbar-color>
+          <ion-label color="primary">Guardar</ion-label>
+        </ion-button>
+      </form>
+    </ion-col>
+  </div>
+  <div class="container mt-2">
+
+    <div class="jumbotron pt-1 mb-2">
+      <h2 class="display-4 pb-4" style="font-size: 45px">¿Su vehículo fue acarreado?</h2>
+      <p class="lead">
+        <li> Si el automóvil se encontrara entre Viamonte (excluida) y Av. Belgrano (excluida), será remolcado a la
+          playa subterránea ubicada en Av. 9 de Julio y Sarmiento. Si se encontrara al sur de la Av. Belgrano
+          (incluida), será remolcado a la playa ubicada en Tacuarí 1277.</li>
+      </p>
+      <hr class="my-2">
+      <p class="lead">
+        <li> Si hubiera sido removido en la Zona Norte -al norte de la calle Viamonte, inclusive esta-, es llevado a la
+          playa de estacionamiento, ubicada en Eduardo Couture esquina Juan A. Bibiloni, atrás de Facultad de Derecho
+          (ingreso desde Figueroa Alcorta por Juan A. Bibiloni). </li>
+      </p>
+      <a class="btn btn-warning btn-block" overflow-scroll="true"
+        href="https://www.buenosaires.gob.ar/tramites/retiro-del-vehiculo-acarreado-por-grua" (click)="abrirWeb()"
+        target="_blank" role="button" style="font-weight: bold"> Mas info</a>
+      <h6 class="mb-1 mt-4">Información extraida de: <br> https://www.buenosaires.gob.ar/</h6>
+    </div>
+  </div>
+
+  <hr>
+  <div class="container">
+  <ion-item-divider class="pb-1">
+    <table>
+      <thead>
+        <ion-label class="" style="font-size: 25px"> Historial de alertas</ion-label>
+        <tr>
+          <th>Alerta</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alarma of alarmas">
+          <td>Alarma <i class="fas fa-backspace align-items-end" (click)="eliminarAlarma(alarma.id)"></i></td>
+          <td>{{ alarma.value }}</td>
+        </tr>
+        <tr *ngFor="let inclinacion of inclinaciones">
+          <td>Inclinación <i class="fas fa-backspace" (click)="eliminarInclinacion(inclinacion.id)"></i></td>
+          <td>{{ inclinacion.value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ion-item-divider>
+</div>
+  <hr>
+
+  <img class="mt-2" src="../../../assets/logo.jpg" height="65%" width="100%">
+
+  <footer class="mx-auto">
+    <p class="mt-1 mb-2 ml-5 mr-1">
+      &copy; {{ anio }} Lucas Latorre & Sofia Vacca
+    </p>
+  </footer>
+
+</ion-content>

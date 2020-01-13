@@ -1,0 +1,91 @@
+<!-- Header -->
+<ion-header class="animated fadeInDown ion-text-center">
+  <ion-toolbar color=$toolbar-color>
+    <ion-title color="light">
+      Documentacion
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="row seleccionar text-white ion-text-center">
+  <div class="col form-check form-check-inline border-right ml-5">
+    <input class="form-check-input mx-auto" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"
+      (click)="cambiarTipo()" checked>
+    <label class="form-check-label mx-auto" for="inlineRadio1">Registro de Conducir</label>
+  </div>
+
+  <div class="col seleccionar form-check form-check-inline">
+    <input class="form-check-input mx-auto" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2"
+      (click)="cambiarTipo()">
+    <label class="form-check-label mx-auto" for="inlineRadio2">Verificacion Técnica Vehicular</label>
+  </div>
+</div>
+
+<ion-content class="animated fadeInDown">
+
+  <!-- Formulario Registro de conducir -->
+  <div *ngIf="tipo == true">
+    <form (ngSubmit)="logForm()">
+      <ion-item>
+        <ion-label>Nombre: </ion-label>
+        <ion-input type="text" [(ngModel)]="form.licencia.nombre" name="doc" #doc required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Apellido: </ion-label>
+        <ion-input type="text" [(ngModel)]="form.licencia.apellido" name="doc" #doc required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Licencia N°: </ion-label>
+        <ion-input type="text" [(ngModel)]="form.licencia.numeroLicencia" name="doc" #Licencia required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="date" [(ngModel)]="form.licencia.vencimiento" name="doc" #doc="ngModel" required>
+          <ion-label>Fecha de Vencimiento: </ion-label>
+        </ion-input>
+      </ion-item>
+
+      <ion-button type="submit" color=$toolbar-color expand="block" style="border-radius: 0;" [disabled]="">
+        Guardar datos
+      </ion-button>
+    </form>
+  </div>
+
+  <!-- Formulario VTV -->
+  <div *ngIf="tipo == false">
+    <form (ngSubmit)="logFormVTV()">
+      <ion-item>
+        <ion-label>Patente del vehiculo: </ion-label>
+        <ion-input type="text" [(ngModel)]="form.vtv.patente" name="doc2" #doc2 required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="date" [(ngModel)]="form.vtv.vencimiento" name="doc" #doc required>
+          <ion-label>Fecha de Vencimiento: </ion-label>
+        </ion-input>
+      </ion-item>
+
+      <ion-button type="submit" color=$toolbar-color expand="block" style="border-radius: 0;" [disabled]="">
+        Guardar datos
+      </ion-button>
+    </form>
+  </div>
+
+
+  <!-- Lista de Documentos guardados -->
+  <div *ngIf="documentos">
+    <div *ngFor="let documento of documentos">
+      <div *ngIf="documento.tipo == 'Licencia'">
+        <app-licencia [nombre]="documento.nombre" [apellido]="documento.apellido"
+          [numeroLicencia]="documento.numeroLicencia" [fechaVencimiento]="documento.vencimiento" [id]="documento.id"
+          (valueChange)='loadPage()'>
+        </app-licencia>
+      </div>
+      <div *ngIf="documento.tipo == 'VTV'">
+        <app-vtv [patente]="documento.patente" [fechaVencimiento]="documento.vencimiento" [id]="documento.id"
+          (valueChange)='loadPage()'>
+        </app-vtv>
+      </div>
+    </div>
+  </div>
+
+
+</ion-content>

@@ -1,5 +1,7 @@
 {
-  "name": "ARdeV",
-  "integrations": {},
-  "type": "angular"
+    "name": "ARdeV",
+    "integrations": {
+        "cordova": {}
+    },
+    "type": "angular"
 }

@@ -1,0 +1,109 @@
+<!-- Header -->
+<ion-header class="animated fadeInDown ion-text-center">
+    <ion-toolbar color=$toolbar-color>
+        <ion-title color="light">
+            Estado del Vehículo
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <!-- Humedad -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="dark">
+            <ion-icon class="fas fa-water"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="start">
+            <ion-fab-button color="dark">
+                <ion-label style="font-size: larger">{{ this.humedad }}%</ion-label>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+
+    <!-- Temperatura -->
+    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+        <ion-fab-button color="dark">
+            <ion-icon class="fas fa-temperature-high"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="end">
+            <ion-fab-button color="dark">
+                <ion-label style="font-size: larger">{{ this.temperatura }}°C</ion-label>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+
+    <!-- Modo Estacionado -->
+    <ion-row class="animated fadeInDown">
+        <ion-col>
+
+            <ion-card [ngClass]="estacionado ? 'bg-success' : 'bg-primary'" class="welcome-card">
+
+                <ion-card-header>
+                    <ion-card-title color="dark"> Modo Estacionado </ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+
+                    <ion-row>
+                        <ion-col>
+                            <ion-toggle class="fadeInDown" color="dark" (click)="cambiarEstadoEstacionado()">
+                            </ion-toggle>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label color="dark"><i
+                                    [ngClass]="estacionado ? 'fas fa-truck' : 'fas fa-shipping-fast'"></i></ion-label>
+                        </ion-col>
+                    </ion-row>
+
+                </ion-card-content>
+
+            </ion-card>
+
+        </ion-col>
+    </ion-row>
+
+    <!-- Mapa -->
+    <div class="container ml-1 mr-1">
+        <div class="animated fadeInDown" #mapElement class="map"></div>
+        <br>
+        <div class="row">
+            <ion-toggle class="fadeInDown pl-4 pr-3" color="dark" (click)="cambiarEstadoSeguimiento()"></ion-toggle>
+            <ion-badge class="pt-2 bg-primary text-dark" style="font-size:larger;"> Ubicacion en Tiempo Real </ion-badge>
+        </div>
+    </div>
+
+    <!-- Alarma -->
+    <ion-row class="animated fadeInDown">
+        <ion-col>
+            <ion-card [ngClass]="alarma ? 'bg-danger' : 'bg-success'" class="alarma-card">
+
+                <ion-card-header>
+                    <ion-card-title color="dark">Alarma </ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+                            <ion-label color="dark">{{cardTextAlarma}}</ion-label>
+                </ion-card-content>
+
+            </ion-card>
+        </ion-col>
+
+        <!-- Movimientos No autorizados -->
+        <ion-col>
+            <ion-card [ngClass]="inclinacion ? 'bg-danger' : 'bg-success'" class="movimientos-card">
+
+                <ion-card-header>
+                    <ion-card-title class="pt-3" color="dark"> Movimientos no autorizados </ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content class="mb-1">
+                    <ion-label color="dark">{{ cardTextInclinacion }}</ion-label>
+                </ion-card-content>
+
+            </ion-card>
+
+        </ion-col>
+    </ion-row>
+
+</ion-content>

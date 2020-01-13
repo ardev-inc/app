@@ -1,0 +1,18 @@
+<div class="card text-white" color="#9ae6b4" style="width: 100%; border-radius: 4%;">
+    <div class="card-header">
+      <button (click)="borrar()" type="button" class="btn btn-dark" style="position:absolute; top:0; right:0;">
+        <i class="far fa-trash-alt"></i>
+      </button>
+      <div class="text-dark" style="font-weight: bold">
+        <div>
+        <ion-label> Verificación Técnica Vehicular </ion-label>
+      </div>
+      </div>
+    </div>
+  <div class="card-body">
+      <li class="text-dark"><ion-label class="text-dark">Patente N°: {{patente}}</ion-label></li>
+      <li class="text-dark"><ion-label class="text-dark">Fecha de Vencimiento:
+          {{ fechaVencimiento }}
+      </ion-label> </li>
+  </div>
+</div>
