@@ -58,8 +58,9 @@ export class AlertasService {
 
   public async vaciarAlarma(imei: string): Promise<void> {
     await this.getAlarmas(imei).subscribe(async (d: any[]) => {
-      for (let i of d) {
-        this.borrarAlarma(i.id, imei).toPromise();
+      if (d) {
+        for (let i = 0; i <= d.length - 1; i++)
+          this.borrarAlarma(d[i].id, imei).toPromise();
       }
     });
   }
@@ -105,8 +106,9 @@ export class AlertasService {
 
   public async vaciarInclinacion(imei: string): Promise<void> {
     await this.getInclinaciones(imei).subscribe(async (d: any[]) => {
-      for (let i of d) {
-        this.borrarInclinacion(i.id, imei).toPromise();
+      if (d) {
+        for (let i = 0; i <= d.length - 1; i++)
+          this.borrarInclinacion(d[i].id, imei).toPromise();
       }
     });
   }

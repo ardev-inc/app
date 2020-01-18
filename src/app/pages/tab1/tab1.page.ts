@@ -31,8 +31,8 @@ export class Tab1Page implements OnInit {
   public cardTextAlarma: string = 'Desactivada';
   public cardTextInclinacion: string = 'Sin movimientos';
 
-  public temperatura: number = 0;
-  public humedad: number = 0;
+  public temperatura: any = 0;
+  public humedad: any = 0;
 
   public longitud: number;
   public latitud: number;
@@ -55,7 +55,7 @@ export class Tab1Page implements OnInit {
     this.obtenerLatitud();
     this.obtenerLongitud();
 
-    // this.loadMap();
+    this.loadMap();
 
     // if(this.cargarStorage('estacionado') == 1){
     //   this.estacionado = true
@@ -79,12 +79,11 @@ export class Tab1Page implements OnInit {
         let dateTime = new Date();
         let date = dateTime.getDate() + '-' + dateTime.getMonth()+1 + '-' + dateTime.getFullYear();
         await this.historialService.cargarAlarma(date, this.imei).toPromise();
-        // await this.alertasService.borrarAlarma(d.id, this.imei).toPromise(); PARA BORRAR
+        await this.alertasService.borrarAlarma(d.id, this.imei).toPromise();
       } else { 
         this.alarma = false;
         this.cardTextAlarma = 'Desactivada';
        }
-      console.log('this alarma', this.alarma);
     });
   }
 
@@ -105,12 +104,11 @@ export class Tab1Page implements OnInit {
         let dateTime = new Date();
         let date = dateTime.getDate() + '-' + dateTime.getMonth()+1 + '-' + dateTime.getFullYear();  
         await this.historialService.cargarInclinacion(date, this.imei).toPromise();
-        //  await this.alertasService.borrarInclinacion(d.id, this.imei).toPromise(); // PARA BORRAR
+        await this.alertasService.borrarInclinacion(d.id, this.imei).toPromise();
       } else {
         this.inclinacion = false;
         this.cardTextInclinacion = 'Sin movimientos';
       }
-      console.log('this inclinacion', this.inclinacion);
     });
   }
 
@@ -121,7 +119,7 @@ export class Tab1Page implements OnInit {
 
     this.map = await new google.maps.Map(this.mapElement.nativeElement,
       {
-        center: { lat: this.cargarStorage('latitud'), lng: this.cargarStorage('longitud') },
+        center: { lat: this.cargarStorageLatLong('latitud'), lng: this.cargarStorageLatLong('longitud') },
         zoom: 18,
         mapTypeControl: false,
         streetViewControl: false
@@ -131,8 +129,8 @@ export class Tab1Page implements OnInit {
       loading.dismiss();
       let marker = new google.maps.Marker({
         position: {
-          lat: this.cargarStorage('latitud'),
-          lng: this.cargarStorage('longitud')
+          lat: this.cargarStorageLatLong('latitud'),
+          lng: this.cargarStorageLatLong('longitud')
         },
         zoom: 18,
         map: this.map
@@ -152,7 +150,7 @@ export class Tab1Page implements OnInit {
 
         }
         else {
-          this.longitud = this.cargarStorage('longitud');
+          this.longitud = this.cargarStorageLatLong('longitud');
         }
 
         // await this.mapsService.borrarLongitud(d.id, this.imei).toPromise();
@@ -169,7 +167,7 @@ export class Tab1Page implements OnInit {
           this.guardarStorage('latitud', this.latitud);
         }
         else {
-          this.longitud = this.cargarStorage('latitud');
+          this.latitud = this.cargarStorageLatLong('latitud')
         }
 
         //  await this.mapsService.borrarLatitud(d.id, this.imei).toPromise();
@@ -197,8 +195,8 @@ export class Tab1Page implements OnInit {
     } else {
       this.estacionado = true;
       this.guardarStorage('estacionado', 1); //guardo en el storage por si la aplicación se cierra y al volverla a abrir aparezca activado
-      // this.alertasService.vaciarInclinacion(this.imei);
-      // this.alertasService.vaciarAlarma(this.imei);
+      this.alertasService.vaciarInclinacion(this.imei);
+      this.alertasService.vaciarAlarma(this.imei);
       Swal.fire({
         type: 'success',
         title: 'Modo estacionado activado',
@@ -215,15 +213,13 @@ export class Tab1Page implements OnInit {
         this.escucharAlarma();
       }
     }, 6000)
-    // // this.escucharAlarma();
-
+    
     // //Inclinacion
     setInterval(() => {
       if (this.estacionado) {
         this.escucharInclinacion();
       }
     }, 8000)
-    // //this.escucharInclinacion();
   }
 
   // ------------ MODO UBICACION EN TIEMPO REAL -------------- //
@@ -260,43 +256,45 @@ export class Tab1Page implements OnInit {
         this.loadMap();
       }
     }, 5000)
-    // // this.loadMap();
+    this.loadMap();
   }
 
   // ------------ HUMEDAD -------------- //
   public obtenerHumedad(): void {
     this.temp_humService.getHumedad(this.imei).subscribe(async (d: any) => {
-      if (d) {
+      if (d != null) {
         this.humedad = d.value;
-        if (d.value != this.cargarStorage('humedad')) {
+        if (d.value.toString() != this.cargarStorage('humedad')) {
           this.humedad = d.value;
           this.borrarStorage('humedad');
-          this.guardarStorage('humedad', this.humedad);
+          this.guardarStorage('humedad', d.value);
         }
-        else {
-          this.humedad = this.cargarStorage('humedad');
-        }
+      } else {
+        let hum = this.cargarStorage('humedad');
+        this.humedad = hum.substr(1,2);
       }
 
-      //await this.temp_humService.borrarHumedad(d.id, this.imei).toPromise(); PARA BORRAR
+      if(d != null)
+        await this.temp_humService.borrarHumedad(d.id, this.imei).toPromise();
     });
   }
 
   // ------------ TEMPERATURA -------------- //
   public obtenerTemperatura(): void {
     this.temp_humService.getTemperatura(this.imei).subscribe(async (d: any) => {
-      if (d) {
-        if (d.value != this.cargarStorage('temperatura')) {
+      if (d != null) {
+        if (d.value.toString() != this.cargarStorage('temperatura')) {
           this.temperatura = d.value;
           this.borrarStorage('temperatura');
-          this.guardarStorage('temperatura', this.temperatura);
+          this.guardarStorage('temperatura', d.value);
         }
-        else {
-          this.temperatura = this.cargarStorage('temperatura');
-        }
-
-        //await this.temp_humService.borrarTemperatura(d.id, this.imei).toPromise(); PARA BORRAR
+      } else {
+        let temp = this.cargarStorage('temperatura');
+        this.temperatura = temp.substr(1,2);
       }
+
+      if(d != null)
+      await this.temp_humService.borrarTemperatura(d.id, this.imei).toPromise();
     });
 
   }
@@ -306,7 +304,11 @@ export class Tab1Page implements OnInit {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
- public cargarStorage(key: string): number {
+ public cargarStorage(key: string): string {
+    return localStorage.getItem(key);
+  }
+
+  public cargarStorageLatLong(key: string): number {
     return Number(localStorage.getItem(key));
   }
 
