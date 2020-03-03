@@ -271,7 +271,9 @@ export class Tab1Page implements OnInit {
         }
       } else {
         let hum = this.cargarStorage('humedad');
-        this.humedad = hum.substr(1,2);
+        if(hum != null){
+          this.humedad = hum.substr(1,2);
+        }
       }
 
       if(d != null)
@@ -290,7 +292,9 @@ export class Tab1Page implements OnInit {
         }
       } else {
         let temp = this.cargarStorage('temperatura');
-        this.temperatura = temp.substr(1,2);
+        if(temp != null){
+          this.temperatura = temp.substr(1,2);
+        }
       }
 
       if(d != null)
