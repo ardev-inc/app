@@ -77,7 +77,7 @@ export class Tab1Page implements OnInit {
           }
         })
         let dateTime = new Date();
-        let date = dateTime.getDate() + '-' + dateTime.getMonth()+1 + '-' + dateTime.getFullYear();
+        let date = dateTime.getDate() + '-' + `${dateTime.getMonth()+1}` + '-' + dateTime.getFullYear();
         await this.historialService.cargarAlarma(date, this.imei).toPromise();
         await this.alertasService.borrarAlarma(d.id, this.imei).toPromise();
       } else { 
@@ -102,7 +102,7 @@ export class Tab1Page implements OnInit {
           }
         })
         let dateTime = new Date();
-        let date = dateTime.getDate() + '-' + dateTime.getMonth()+1 + '-' + dateTime.getFullYear();  
+        let date = dateTime.getDate() + '-' + `${dateTime.getMonth()+1}` + '-' + dateTime.getFullYear();  
         await this.historialService.cargarInclinacion(date, this.imei).toPromise();
         await this.alertasService.borrarInclinacion(d.id, this.imei).toPromise();
       } else {
